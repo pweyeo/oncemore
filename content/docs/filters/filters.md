@@ -1,9 +1,7 @@
 ---
-title: "Understanding Filters"
-description: "Doks is a Hugo theme helping you build modern documentation websites that are secure, fast, and SEO-ready — by default eyeo."
-lead: "Use this library to integrate eyeo's Ad Blocking Core for Chromium and Firefox Extensions."
-date: 2020-10-06T08:48:57+00:00
-lastmod: 2020-10-06T08:48:57+00:00
+title: "Filters Reference"
+description: "Learn how to write AdBlock Plus filters."
+lead: "Get up and running with your first custom filter rule."
 draft: false
 images: []
 menu:
@@ -13,195 +11,89 @@ weight: 100
 toc: true
 ---
 
-## Getting started
+## Writing Filters
 
-Before you begin building your extension, make sure to download the libraries you'll need and configure the `manifest.json` file.
+This tutorial explains how to write custom filter rules, or just **filters**, that [Adblock Plus](https://adblockplus.org/) can use to filter and block ads.
 
-### Downloading the libraries
+No prior programming experience is required, though some knowledge of HTML and the [document object model](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) (DOM) will be useful.
 
+By the end of this tutorial, you'll know how to write and add blocking filters to Adblock Plus. First, though, you'll learn some basic filter concepts.
 
-The Web Extension (WebExt) library comes in two parts, which you'll need to include in the extension's background page:
+## Filter Basics
 
-* `ewe-api.js`
-* `ewe-content.js`
+A filter is a rule that a browser uses to block elements on a web page. A collection of filters is a **filter list**.
 
-Make sure you've downloaded [the latest builds](https://gitlab.com/eyeo/webext/webext-sdk/-/jobs/1568206051/artifacts/browse/dist) of both.
+Adblock Plus (**ABP**) uses filter lists to block and filter web content. ABP uses three pre-installed filter lists:
 
+- [Acceptable Ads](https://acceptableads.com/)
+- [EasyList](https://easylist.to/)
+- [ABP Anti-Circumvention](https://github.com/abp-filters/abp-filters-anti-cv)
 
-### Configuring the manifest file
+You can create your own filter rules, though, and add them to your instance of Adblock Plus.
 
-Your extension's `manifest.json` file needs the following configuration:
+## Your first filter
 
-```json
-{
-  "manifest_version": 2,
-  "background": {
-    "scripts": [
-      "ewe-api.js"
-    ]
-  },
-  "content_scripts": [
-    {
-      "all_frames": true,
-      "js": [
-        "ewe-content.js"
-      ],
-      "match_about_blank": true,
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "run_at": "document_start"
-    }
-  ],
-  "permissions": [
-    "webNavigation",
-    "webRequest",
-    "webRequestBlocking",
-    "unlimitedStorage",
-    "<all_urls>"
-  ]
-}
+Writing a new blocking filter for Adblock Plus requires three steps:
+
+1. **Identify the web request address you want to block.**
+2. **If necessary, use characters to turn the request address into a filter.**
+3. **Add the new address, or filter, to Adblock Plus.**
+
+Below, you'll use a practical example to learn each of these steps.
+
+### Identifying the request address
+
+Most internet ads are web resources found at a URL. Suppose you come across ad content at the following URL:
+
+```html
+http://example.com/ads/banner123.gif
 ```
 
+This URL contains two key components:
 
-<!--{{< alert icon="👉" text="The Tutorial is intended for novice to intermediate users." />}}
+- A domain name, in this case `example.com`
+- A path, in this case, `/ads/banner123.gif`
 
-Step-by-step instructions on how to start a new Doks project. [Tutorial →](https://getdoks.org/tutorial/introduction/)-->
+The path itself contains two components:
 
-## Quick Start
+- A directory, or folder, in this case `/ads`
+- A file inside that folder, in this case, `banner123.gif`
 
-{{< alert icon="👉" text="For installation, make sure you have Node 12.18.4 or higher on your system." />}}
+Next, you'll learn how to convert this URL into a filter.
 
-### Installing dependencies
+### Turning the request into a filter rule
 
-Now that you've downloaded the libraries and configured the `manifest.json` file, run the following command to update and install the dependencies.
+If you only wanted to block the file `banner123.gif`, you could instruct the browser to block the entire, unchanged URL. However, the file's parent folder, `/ads`, probably contains other ads that you could block as well. By making small changes to the URL, you can create a comprehensive filter rule that blocks `banner123.gif` and content similar to it, as well.
 
-```
-npm install
-```
+<!--#### Changing requests with special characters -->
 
-### Building the library
+For example, if you see a file named `banner123.gif`, you might conclude that the folder contains other files with similar names, like `banner456.gif` or `banner789.gif`. Instead of writing filter rules for each potential file, you could use the wildcard character `*` and replace the numbers following `banner`, like in the following example:
 
-Next, run the following command to build the libraries.
-
-```
-npm run build
-```
-
-### Linting your code
-
-To lint your code, run the following command.
-
-```
-npm run lint
+```html
+http://example.com/ads/banner*.gif
 ```
 
-### Starting the build
+This `*` character serves as a placeholder for any other characters that may follow, including numbers. This filter rule, then, would block all `.gif` files in the `/ads` folder that begin with the string `banner`.
 
-Lastly, to start the extension build, run the following command.
+You've now converted the resource's URL into a filter that Adblock Plus can use to block content.
 
-```
-npm start
-```
+### Adding your filter rule to Adblock Plus
 
-### Blocking ads
+{{< alert icon="👉" text="For this step, make sure you have Adblock Plus installed on your device." />}}
 
-With the libraries and dependencies installed, you're now ready to start blocking ads.  
+Use the following instructions to complete the final step, adding your filter to Adblock Plus:
 
-Access the API in your own background scripts through the
-global `EWE` object. Call `EWE.start()` to start blocking ads.
+1. Copy the filter rule you created in the previous step.
+2. In your browser, open Adblock Plus, then select the **Advanced** tab.
+3. Scroll down to the **My Filter List** section.
+4. Paste the filter rule from Step 1 into the **Search or add filter(s)** field.
+5. Click the **+Add** button to confirm.
 
-## Testing your extension
+You've just added a custom filter rule to Adblock Plus.
 
-Now that you've got an extension up and running, be sure to test it to ensure it's functioning as expected.
+## What next?
 
-### Serving test pages
-
-Whether you manually load the test extension or use the test runner, the test suite requires locally served test pages.  Run them with the following command.
-
-```
-npm run test-server
-```
-
-### Using the test extension
-
-The test extension is built on both the `/dist/test-mv2` and `/dist/test-mv3` folders.  You can load both folders as unpacked extensions under `chrome://extensions` in Chromium-based browsers, and under `about:debugging` in Firefox.
-
-Once you've loaded the extension, the test suite opens in a new tab.  To test the API manually through the global `EWE` object, you can inspect your extension's background page.
-
-Keep the following in mind when testing your extension:
-
-* `test-mv2` contains a Manifest Version 2 extension, and `test-mv3` contains a [Manifest Version 3](https://developer.chrome.com/docs/extensions/mv3/intro/) extension.
-* For popup tests, disable your browser's built-in popup blocking on `localhost`.
-
-#### Test options
-
-* The `timeout` option overrides the per-test timeout in milliseconds.
-* The `grep` uses a regular expression to filter the tests to be run.
-
-#### Using the test runner
-
-Run the following command to enable the test runner.
-
-```
-npm test -- {v2|v3} {chromium|firefox|edge} [version|channel] [options]
-```
-
-#### Testing the bundle
-
-Run the following command to make sure users can import and re-bundle your code.
-
-```
-npm run test-bundle
-```
-
-## Going further
-
-With your build running, you may want to consider other features available for your extension.
-
-### Module bundlers
-
-Because `ewe-api.js` runs as a Universal Module Definition (UMD) module, you can use it with module bundlers.
-
-If you use a module bundler, omit `ewe-api.js` from your `manifest.json` file.  As a result, your build won't contain a global `EWE` object.
-
-Review the following snippets to see the `ewe-api.js` as both a CommonJS and ESM module.
-
-#### CommonJS
-
-```javascript
-const EWE = require("./ewe-api.js");
-EWE.start();
-```
-
-#### ESM
-
-```javascript
-import * as EWE from "./ewe-api.js";
-EWE.start();
-```
-
-### Supporting snippet Filters
-
-To enable support for [snippet filters](https://help.eyeo.com/adblockplus/snippet-filters-tutorial), download the [snippets library](https://gitlab.com/eyeo/adblockplus/abp-snippets) and make it available to the `EWE` object with the following command:
-
-```javascript
-let response = await fetch("snippets.js");
-let code = await response.text();
-EWE.snippets.setLibrary(code);
-```
-
-### Incorporating machine learning models
-
-You'll find a `models` folder included with the library bundles you downloaded.  To support machine learning enabled snippets, make sure to include the `models` folder and its contents in your extension bundle.  Include the folder in the same directory as `ewe-api.js`.
-
-{{< alert icon="👉" text="Machine learning enabled snippets are optional, though without them, your extension cannot make use of our machine learning models." />}}
-
-### What next?
-
-Looking to dive even deeper?  Check out our API documentation next. [API Docs →](#)
-
+In this guide, you learned how to write a custom blocking filter. Adblock Plus makes use of several other filter types, as well. As a next step, read our [filter reference documentation](#) to learn how to write even more custom filter rules.
 
 ## Help
 
