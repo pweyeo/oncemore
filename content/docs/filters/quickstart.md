@@ -65,7 +65,7 @@ Next, you'll learn how to convert this URL into a filter.
 
 If you only wanted to block the file `banner123.gif`, you could instruct the browser to block the entire, unchanged URL. However, the file's parent folder, `/ads`, probably contains other ads that you could block as well. By making small changes to the URL, you can create a comprehensive filter rule that blocks `banner123.gif` and content similar to it, as well.
 
-#### Changing requests with special characters
+<!--#### Changing requests with special characters -->
 
 For example, if you see a file named `banner123.gif`, you might conclude that the folder contains other files with similar names, like `banner456.gif` or `banner789.gif`. Instead of writing filter rules for each potential file, you could use the wildcard character `*` and replace the numbers following `banner`, like in the following example:
 
@@ -75,10 +75,7 @@ http://example.com/ads/banner*.gif
 
 This `*` character serves as a placeholder for any other characters that may follow, including numbers. This filter rule, then, would block all `.gif` files in the `/ads` folder that begin with the string `banner`.
 
-#### Altering paths to target directories
-
-
-
+You've now converted the resource's URL into a filter that Adblock Plus can use to block content.
 
 ### Adding your filter rule to Adblock Plus
 
@@ -96,8 +93,7 @@ You've just added a custom filter rule to Adblock Plus.
 
 ## What next?
 
-In this guide, you learned how to write a custom blocking filter.    [API Docs →](#)
-
+In this guide, you learned how to write a custom blocking filter. Adblock Plus makes use of several other filter types, as well. As a next step, read our [filter reference documentation](#) to learn how to write even more custom filter rules.
 
 ## Help
 
