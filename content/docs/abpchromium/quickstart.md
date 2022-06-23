@@ -1,6 +1,6 @@
 ---
 title: "Quickstart Guide"
-description: "Learn how to write AdBlock Plus filters."
+description: "Learn how to install the ABP Chromium SDK."
 lead: "Get up and running with ABP Chromium."
 draft: false
 images: []
@@ -11,18 +11,18 @@ weight: 100
 toc: true
 ---
 
-## Writing Filters
+## About ABP Chromium
 
-Adblock Plus Chromium (**ABP Chromium**) is a software development kit that you can use to integrate eyeo's ad-filtering technology into Chromium-based browsers.
+Adblock Plus Chromium (**ABP Chromium**) is a software development kit (**SDK**) that you can use to integrate eyeo's ad-filtering technology into Chromium-based browsers.
 
-Built from a fork of the [Chromium project](https://adblockplus.org/), ABP Chromium leverages eyeo's **something something something** to serve as the basis for developing your own browser.
+Built from a fork of the [Chromium project](https://adblockplus.org/), ABP Chromium leverages eyeo's ad-blocking functionality and filter lists to serve as the basis for developing your own browser.
 
 You can get started with ABP Chromium SDK in just two stages:
 
 1. Verify your Chromium dependencies.
 2. Fork ABP Chromium from eyeo's GitLab repository.
 
-By the end of this quickstart guide, you'll have cloned the ABP Chromium project and implemented a **somethng something** for further use.
+By the end of this quickstart guide, you'll have cloned the ABP Chromium project and laid the ground work for the development of your own Chromium-based ad-filtering browser.
 
 {{< alert icon="👉" text="This guide assumes familiarity with both Git and the command line." />}}
 
@@ -75,59 +75,11 @@ git checkout -b my-branch eyeo-abp-release-101.0.4951.41-2.0
 
 You can now develop and commit your project's changes to the branch you just created.
 
-### Implement your changes
-
-Most internet ads are web resources found at a URL. Suppose you come across ad content at the following URL:
-
-```html
-http://example.com/ads/banner123.gif
-```
-
-This URL contains two key components:
-
-- A domain name, in this case `example.com`
-- A path, in this case, `/ads/banner123.gif`
-
-The path itself contains two components:
-
-- A directory, or folder, in this case `/ads`
-- A file inside that folder, in this case, `banner123.gif`
-
-Next, you'll learn how to convert this URL into a filter.
-
-### Turning the request into a filter rule
-
-If you only wanted to block the file `banner123.gif`, you could instruct the browser to block the entire, unchanged URL. However, the file's parent folder, `/ads`, probably contains other ads that you could block as well. By making small changes to the URL, you can create a comprehensive filter rule that blocks `banner123.gif` and content similar to it, as well.
-
-<!--#### Changing requests with special characters -->
-
-For example, if you see a file named `banner123.gif`, you might conclude that the folder contains other files with similar names, like `banner456.gif` or `banner789.gif`. Instead of writing filter rules for each potential file, you could use the wildcard character `*` and replace the numbers following `banner`, like in the following example:
-
-```html
-http://example.com/ads/banner*.gif
-```
-
-This `*` character serves as a placeholder for any other characters that may follow, including numbers. This filter rule, then, would block all `.gif` files in the `/ads` folder that begin with the string `banner`.
-
-You've now converted the resource's URL into a filter that Adblock Plus can use to block content.
-
-### Adding your filter rule to Adblock Plus
-
-{{< alert icon="👉" text="For this step, make sure you have Adblock Plus installed on your device." />}}
-
-Use the following instructions to complete the final step, adding your filter to Adblock Plus:
-
-1. Copy the filter rule you created in the previous step.
-2. In your browser, open Adblock Plus, then select the **Advanced** tab.
-3. Scroll down to the **My Filter List** section.
-4. Paste the filter rule from Step 1 into the **Search or add filter(s)** field.
-5. Click the **+Add** button to confirm.
-
-You've just added a custom filter rule to Adblock Plus.
-
 ## Next up
 
-In this quickstart guide, you cloned the ABP Chromium project and . Adblock Plus makes use of several other filter types, as well. As a next step, read our [filter reference documentation](#) to learn how to write even more custom filter rules.
+In this quickstart guide, you cloned the ABP Chromium fork to your own development project.
+
+While you could begin working on your own browser immediately, using the SDK to accomplish basic ad-filtering tasks will take your project to the next level. Check out the [ABP Chromium features documentation]() to learn how ABP Chromium handles common ad-filtering use cases.
 
 ## Help
 
