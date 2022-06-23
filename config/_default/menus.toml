@@ -4,6 +4,12 @@
   identifier = "filters"
   url = "#"
 
+[[docs]]
+    name = "ABP Chromium"
+    weight = 80
+    identifier = "abpchromium"
+    url = "#"
+
 [[main]]
   name = "Docs"
   url = "/docs/filters/quickstart"
