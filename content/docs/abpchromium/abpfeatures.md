@@ -7,7 +7,7 @@ images: []
 menu:
   docs:
     parent: "abpchromium"
-weight: 100
+weight: 102
 toc: true
 ---
 
@@ -46,6 +46,9 @@ A basic ABP Chromium installation contains the following filter lists:
 ## Recipes for common ad-filtering integration tasks
 
 Depending on your implementation of ABP Chromium, you'll likely find some of the following strategies useful for configuring the SDK within your project.
+
+{{< alert icon="👉" text="The following strategies are only supported for Android." />}}
+
 
 ### Disable ad-filtering on a specific domain
 
