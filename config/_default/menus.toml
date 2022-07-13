@@ -5,14 +5,14 @@
   url = "#"
 
 [[docs]]
-    name = "ABP Chromium"
+    name = "eyeo Chromium"
     weight = 80
-    identifier = "abpchromium"
+    identifier = "eyeochromium"
     url = "#"
 
 [[main]]
   name = "Docs"
-  url = "/docs/abpchromium/quickstart"
+  url = "/docs/eyeochromium/quickstart"
   weight = 10
 
 [[social]]
